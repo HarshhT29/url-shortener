@@ -16,7 +16,7 @@ const generateNewShortURL = async (req, res) => {
 
 const getURLByShortId = async (req, res) => {
     const shortId = req.params.shortId;
-    const entryUrl = await URL.findOneAndUpdate({short_id:shortId},{
+    const entryUrl = await URL.findOneAndUpdate({ short_id: shortId }, {
         $push: {
             visit_history: {
                 timestamp: Date.now(),
@@ -24,8 +24,18 @@ const getURLByShortId = async (req, res) => {
         },
     });
     res.redirect(entryUrl.redirect_url);
-}
+};
+
+const getAnalytics = async (req, res) => {
+    const shortId = req.params.shortId;
+    const result = await URL.findOne({ short_id: shortId });
+
+    return res.json({
+        TotalClicks: result.visit_history.length,
+        ClickAnalytics: result.visit_history,
+    });
+};
 
 module.exports = {
-    generateNewShortURL, getURLByShortId,
+    generateNewShortURL, getURLByShortId, getAnalytics,
 };
