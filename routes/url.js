@@ -1,6 +1,6 @@
 const express = require("express");
 const { generateNewShortURL, getURLByShortId, getAnalytics } = require("../controllers/urlHandlers");
-const shortid = require("shortid");
+
 
 const router = express.Router();
 

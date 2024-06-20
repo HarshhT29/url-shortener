@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>URL Shortener</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        .content {
+            margin-bottom: 20px;
+        }
+
+        .content form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        label {
+            font-size: 1.2em;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        input[type="text"] {
+            width: 80%;
+            padding: 10px;
+            font-size: 1em;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 1em;
+            color: #fff;
+            background-color: #28a745;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #218838;
+        }
+
+        .newURL {
+            text-align: center;
+            margin-bottom: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .newURL span {
+            font-size: 1.2em;
+            color: #007bff;
+        }
+
+        .dbTable {
+            margin-top: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        th, td {
+            padding: 10px;
+            border: 1px solid #ccc;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+            color: #333;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>URL Shortener</h1>
+
+        <div class="content">
+            <form method="post" action="/url">
+                <label for="url">
+                    Enter URL to shorten:
+                    <input type="text" id="url" name="url" placeholder="https://abc.com" />
+                </label>
+                <button type="submit">Generate URL</button>
+            </form>
+        </div>
+
+        <div class="newURL">
+            <% if (locals.id) { %>
+                <span>URL Generated: http://localhost:8080/url/<%= id %></span>
+                <span>HomePage: <a href="http://localhost:8080/">http://localhost:8080/</a></span>
+            <% } %>
+        </div>
+
+        <div class="dbTable">
+            <% if(locals.urls) {%>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Sr. No</th>
+                            <th>Short ID</th>
+                            <th>Redirect URL</th>
+                            <th>Total Clicks</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% urls.forEach((url, index) => { %>
+                            <tr>
+                                <td><%= index + 1 %></td>
+                                <td><%= url.short_id %></td>
+                                <td><%= url.redirect_url %></td>
+                                <td><%= url.visit_history.length %></td>
+                            </tr>
+                        <% }) %>
+                    </tbody>
+                </table>
+            <% } %>
+        </div>
+    </div>
+</body>
+
+</html>
