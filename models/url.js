@@ -12,6 +12,10 @@ const urlSchema = new mongoose.Schema({
         unique: true,
     },
     visit_history: [{ timestamp: { type: Number } }],
+    createdBy: {
+        type: mongoose.Schema.ObjectId,        // isska mtlb hai ki mai createdBy mei ek id dunga
+        ref: 'Users',                          // jo user ko reference karega
+    },
 }, { timestamps: true });
 
 const URL = mongoose.model("url", urlSchema);
