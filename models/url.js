@@ -13,8 +13,8 @@ const urlSchema = new mongoose.Schema({
     },
     visit_history: [{ timestamp: { type: Number } }],
     createdBy: {
-        type: mongoose.Schema.ObjectId,        // isska mtlb hai ki mai createdBy mei ek id dunga
-        ref: 'Users',                          // jo user ko reference karega
+        type: mongoose.Schema.ObjectId,        // isska mtlb hai ki mai createdBy mei ek id hai
+        ref: 'Users',                          // jo user ko reference kar raha hai
     },
 }, { timestamps: true });
 

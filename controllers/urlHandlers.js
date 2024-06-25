@@ -1,8 +1,9 @@
 const shortid = require("shortid");
 const URL = require("../models/url");
 
-const renderIndexHtml = async (req,res) => {
-    const allUrls = await URL.find({});
+const renderIndexHtml = async (req, res) => {
+    if(!req.user) return res.redirect("/login");
+    const allUrls = await URL.find({ createdBy: req.user._id });
     return res.render("index", {
         urls: allUrls,
     });
@@ -10,7 +11,7 @@ const renderIndexHtml = async (req,res) => {
 
 const generateNewShortURL = async (req, res) => {
     const body = req.body;
-    if (!body.url)
+    if(!body.url)
         return res.status(400).json({ error: "url not found" });
     const shortID = shortid();
     await URL.create({
@@ -19,7 +20,7 @@ const generateNewShortURL = async (req, res) => {
         visit_history: [],
         createdBy: req.user._id,
     });
-    return res.render("index",{
+    return res.render("index", {
         id: shortID,
     });
 };

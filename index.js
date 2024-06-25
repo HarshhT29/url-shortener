@@ -5,7 +5,7 @@ const cookieParser = require("cookie-parser");
 const urlRoute = require("./routes/url");
 const staticRoute = require("./routes/staticRoute");
 const userRoute = require("./routes/user");
-const { loggedInUserOnly } = require("./middleware/auth");    //custom middleware
+const { loggedInUserOnly, checkAuth } = require("./middleware/auth");    //custom middleware
 
 const { connectMongoDB } = require("./connection");
 
@@ -23,7 +23,7 @@ app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-app.use("/", staticRoute);
+app.use("/", checkAuth, staticRoute);
 app.use("/user", userRoute);
 app.use("/url", loggedInUserOnly, urlRoute); //inline middleware for authentication
 
